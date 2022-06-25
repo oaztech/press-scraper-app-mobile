@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -27,12 +28,7 @@ class RootView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: MaterialColor(
-        0xff181CB5,
-        const <int, Color>{
-          50: const Color(0xff181CB5),
-        },
-      )),
+      theme: ThemeData(primarySwatch: Colors.teal),
       routes: {
         '/': (context) => const HomePage(),
       },

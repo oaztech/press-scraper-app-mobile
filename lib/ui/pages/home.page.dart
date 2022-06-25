@@ -9,10 +9,10 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       drawer: const MainDrawer(),
       appBar: AppBar(
-        title: const Text('Article page'),
+        title: const Text('Home page'),
       ),
       body: const Center(
-        child: Text('article page'),
+        child: Text('Home page'),
       ),
     );
   }
