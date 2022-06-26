@@ -1,44 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scrapi/bloc/category.bloc.dart';
+import 'package:scrapi/client/hespress_scraper.client.dart';
+import 'package:scrapi/model/category.model.dart';
 import 'package:scrapi/ui/pages/widgets/drawer.item.widget.dart';
 import 'package:scrapi/ui/pages/widgets/main.drawer.header.widget.dart';
 
-class MainDrawer extends StatelessWidget {
+class MainDrawer extends StatefulWidget {
   const MainDrawer({Key? key}) : super(key: key);
 
   @override
+  State<MainDrawer> createState() => _MainDrawerState();
+}
+
+class _MainDrawerState extends State<MainDrawer> {
+  late List<CategoryModel> categories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    HespressScraperClient.fetchCategories().then((value) => {
+      setState(() {
+        categories = value;
+      })
+    });
+  }
+  
+  @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(
+      child: Column(textDirection: TextDirection.rtl,
         children: [
           const MainDrawerHeader(),
           Expanded(
-            child: BlocBuilder<CategoryBloc, CategoryState>(
-                builder: (context, state) {
-              if (state is CategorySuccessState || state is CategoryInitialState) {
-                return ListView.separated(
-                    itemBuilder: (context, index) {
-                      return DrawerItemWidget(
-                        title: state.categories![index].wording,
-                        onAction: () {
-                          Navigator.pop(context);
-                          Navigator.pushNamed(context, '/');
-                        },
-                      );
+            child: ListView.separated(
+                itemBuilder: (context, index) {
+                  return DrawerItemWidget(
+                    title: categories[index].wording,
+                    onAction: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/');
                     },
-                    separatorBuilder: (context, index) {
-                      return const Divider(
-                        height: 6,
-                      );
-                    },
-                    itemCount: state.categories.length);
-              } else {
-                return Column(
-                  children: const [Text('No data fetched')],
-                );
-              }
-            }),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const Divider(
+                    endIndent: 6,
+                  );
+                },
+                itemCount: categories.length),
           )
         ],
       ),

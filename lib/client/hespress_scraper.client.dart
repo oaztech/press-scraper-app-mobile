@@ -13,9 +13,9 @@ class HespressScraperClient {
         await http.get(Uri.parse(base_url + '/hespress/categorises'));
 
     if (response.statusCode == 200) {
-      List categoriesJson = jsonDecode(response.body);
+      var strJson = utf8.decode(response.bodyBytes);
 
-      return (jsonDecode(response.body) as Iterable)
+      return (jsonDecode(strJson) as Iterable)
           .map((categoryJson) => CategoryModel.fromJson(categoryJson)).toList();
     } else {
       throw Exception('Failed to load categories');
@@ -42,7 +42,8 @@ class HespressScraperClient {
         page.toString()));
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> pagedArticlesJson = jsonDecode(response.body);
+      var strJson = utf8.decode(response.bodyBytes);
+      Map<String, dynamic> pagedArticlesJson = jsonDecode(strJson);
 
       return PagedArticlesModel(
           count: pagedArticlesJson['count'],
@@ -60,7 +61,8 @@ class HespressScraperClient {
         .get(Uri.parse(base_url + '/hespress/articles/' + id.toString()));
 
     if (response.statusCode == 200) {
-      return ArticleModel.fromJson(jsonDecode(response.body));
+      var strJson = utf8.decode(response.bodyBytes);
+      return ArticleModel.fromJson(jsonDecode(strJson));
     } else {
       throw Exception('Failed to load article');
     }

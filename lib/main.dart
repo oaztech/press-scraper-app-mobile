@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:scrapi/bloc/category.bloc.dart';
 import 'package:scrapi/ui/pages/home.page.dart';
 
 void main() async {
@@ -16,9 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [BlocProvider(create: (context) => CategoryBloc())],
-        child: const RootView());
+    return const RootView();
   }
 }
 
@@ -28,7 +23,7 @@ class RootView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.teal),
+      theme: ThemeData(primarySwatch: Colors.deepPurple),
       routes: {
         '/': (context) => const HomePage(),
       },
